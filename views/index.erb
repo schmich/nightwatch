@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app="nightwatch">
+<head>
+  <title>Nightwatch</title>
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width">
+  <script src="/js/angular.min.js"></script>
+  <script src="/js/app.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/lato.css">
+  <link rel="stylesheet" type="text/css" href="/css/style.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon.png" />
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
+</head>
+<body ng-controller="ReportCtrl">
+  <ul>
+    <li ng-repeat="exception in exceptions | orderBy:'-timestamp'">
+      <p>{{exception.class}}: {{exception.message}}</p>
+      <p>{{exception.host}} {{exception.timestamp * 1000 | date:'yyyy-MM-dd hh:mm:ssa'}}</p>
+      <a href="" ng-click="toggleDetails(exception)">(expand)</a>
+      <ul class="stack" ng-show="details(exception)">
+        <li ng-repeat="frame in exception.stack">
+          {{frame.path}}:{{frame.line}} {{frame.label}}
+        </li>
+      </ul>
+    </li>
+  </ul>
+</body>
+</html>
