@@ -1,0 +1,66 @@
+body {
+  background: #fbfbfb;
+  font-size: 16px;
+}
+.exceptions {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.exception {
+  padding: 22px 20px 15px 20px;
+  border-bottom: 1px solid #ccc;
+}
+.exception.active {
+  background: #fefefe;
+  box-shadow: 0px 8px 20px -6px rgba(0, 0, 0, 0.2);
+}
+.exception h1 {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+.exception .host {
+  color: #999;
+  text-transform: uppercase;
+  font-size: smaller;
+}
+.exception .stack-summary {
+  color: #555;
+  display: inline-block;
+}
+.exception .stack-details {
+  display: inline-block;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.exception .expando {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 5px;
+}
+.exception .method {
+  font-family: monospace;
+}
+.exception .stack-details .method {
+  margin-right: 10px;
+}
+.exception .path, .exception .line {
+}
+.exception .stack-summary .separator {
+  margin-left: 5px;
+  margin-right: 5px;
+  color: #999;
+}
+.navbar {
+  background: #135b8e;
+  margin-bottom: 0;
+}
+.navbar-default .navbar-brand, .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:active {
+  color: #fff;
+}
+.table th {
+  font-weight: 500;
+}
