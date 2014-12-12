@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'nightwatch/cli'
+require 'nightwatch/web/cli'
 
 Nightwatch::CommandLine.start(ARGV)

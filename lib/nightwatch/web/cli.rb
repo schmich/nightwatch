@@ -1,4 +1,4 @@
-require 'nightwatch/server'
+require 'nightwatch/web/server'
 require 'nightwatch/version'
 require 'thor'
 require 'launchy'
