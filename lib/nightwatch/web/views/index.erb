@@ -3,6 +3,8 @@
 <head>
   <title>Nightwatch</title>
   <meta name="viewport" content="user-scalable=no, initial-scale=1, minimum-scale=1, maximum-scale=1, width=device-width">
+  <script src="/js/jquery-2.1.1.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
   <script src="/js/angular.min.js"></script>
   <script src="/js/angular-filter.min.js"></script>
   <script src="/js/app.js"></script>
@@ -14,41 +16,92 @@
 </head>
 <body ng-controller="ReportCtrl">
   <nav class="navbar navbar-default" role="navigation">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="/"><i class="fa fa-bolt"></i>&nbsp;&nbsp;Nightwatch</a>
+        <a class="navbar-brand" href="/">Nightwatch</a>
       </div>
     </div>
   </nav>
-  <div class="container">
+  <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-4 no-padding sidebar">
+        <!--
+        <form class="form-inline filter-form" role="form">
+          <div class="form-group">
+            <div class="input-group">
+              Class:
+              <select id="exception-class" class="form-control-inline" ng-model="exceptionClass">
+                <option value="*">Any</option>
+                <option ng-repeat="class in exceptions | map:'class' | unique" ng-value="class">{{class}}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+-->
         <ul class="exceptions">
-          <li ng-class="{ exception: true, active: details(exception) }" ng-repeat="exception in exceptions | orderBy:'-timestamp'">
-            <h1><span class="class">{{exception.class}}</span>: <span class="message">{{exception.message}}</span></h1>
-            <div><span class="host">{{exception.host}}</span></div>
-            <div class="expando">
-              <a href="" ng-click="toggleDetails(exception)">
-                <i ng-show="!details(exception)" class="fa fa-chevron-down"></i>
-                <i ng-show="details(exception)" class="fa fa-chevron-up"></i>
-              </a>
+          <li ng-class="{ tile: true, exception: true, active: isActive(exception) }" ng-click="setActive(exception)" ng-repeat="exception in exceptions | exceptionFilter: { class: exceptionClass } | orderBy:'-timestamp'">
+            <div class="primary">
+              <h1><span class="class">{{exception.class}}</span>: <span class="message">{{exception.message}}</span></h1>
             </div>
-            <div class="stack-summary" ng-show="!details(exception)">
-              <span ng-repeat="frame in exception.stack | before:5">
-                <span class="method">{{frame.label}}</span> <span class="separator" ng-if="!$last || exception.stack.length > 4">&larr;</span>
-              </span>
-              <span ng-if="exception.stack.length > 4">
-                <span class="method">...</span>
-              </span>
+            <div class="support">
+              <span class="host">{{exception.host}}</span>
+              <span class="time pull-right" ng-attr-title="{{exception.timestamp * 1000 | date:'MMM dd, yyyy hh:mm:ss a'}}">{{exception.timestamp | timeAgo}}</span>
             </div>
-            <ul class="stack-details" ng-show="details(exception)">
-              <li ng-repeat="frame in exception.stack">
-                <span class="method">{{frame.label}}</span>
-                <span class="path">{{frame.path | basename}}</span>:<span class="line">{{frame.line}}</span>
-              </li>
-            </ul>
           </li>
         </ul>
+      </div>
+      <div class="col-md-8 no-padding">
+        <div class="card exception-details">
+          <h4>{{activeException.class}}: {{activeException.message}}</h4>
+          <div role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active"><a href="#summary" role="tab" data-toggle="tab">Summary</a></li>
+              <li role="presentation"><a href="#stack" role="tab" data-toggle="tab">Stack</a></li>
+              <li role="presentation"><a href="#environment" role="tab" data-toggle="tab">Environment</a></li>
+            </ul>
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="summary">
+                <div class="row">
+                  <div class="col-md-3"><p>Class</p></div>
+                  <div class="col-md-9"><p>{{activeException.class}}</p></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3"><p>Message</p></div>
+                  <div class="col-md-9"><p>{{activeException.message}}</p></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3"><p>Location</p></div>
+                  <div class="col-md-9"><p>{{activeException.stack[0].label}} in {{activeException.stack[0].path | basename}}:{{activeException.stack[0].line}}</p></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3"><p>Host</p></div>
+                  <div class="col-md-9"><p>{{activeException.host}}</p></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3"><p>Time</p></div>
+                  <div class="col-md-9"><p>{{activeException.timestamp * 1000 | date:'MMM dd, yyyy hh:mm:ss a'}}</p></div>
+                </div>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="stack">
+                <table class="table">
+                  <tr>
+                    <th>Location</th>
+                    <th>File</th>
+                    <th width="10%">Line</th>
+                  </tr>
+                  <tr ng-repeat="frame in activeException.stack">
+                    <td>{{frame.label}}</td>
+                    <td>{{frame.path}}</td>
+                    <td>{{frame.line}}</td>
+                  </tr>
+                </table>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="environment">
+                <p>Environment</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
