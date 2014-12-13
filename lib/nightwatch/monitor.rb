@@ -1,6 +1,7 @@
 require 'socket'
 require 'singleton'
 require 'nightwatch/configuration'
+require 'nightwatch/ext/thread'
 
 module Nightwatch
   class ExceptionManager
@@ -19,7 +20,14 @@ module Nightwatch
     end
 
     def add_exception(exception)
-      @exceptions[exception.object_id] = [exception, stack(exception), Time.now.to_i]
+      Configuration.instance.filters.each do |filter|
+        exception = filter.apply(exception)
+        break if !exception
+      end
+
+      if exception
+        @exceptions[exception.object_id] = [exception, stack(exception), Time.now.to_i]
+      end
     end
 
     def commit!
@@ -31,13 +39,13 @@ module Nightwatch
         klass = exception.class.name
 
         record = {
-          pid: $$,
-          script: @@script,
-          argv: @@argv,
-          env: env,
-          host: host,
           class: klass,
           message: exception.to_s,
+          script: @@script,
+          argv: @@argv,
+          pid: $$,
+          env: env,
+          host: host,
           stack: stack,
           timestamp: ticks
         }
@@ -71,24 +79,6 @@ module Nightwatch
 
       stack
     end
-  end
-end
-
-class Thread
-  alias_method :orig_initialize, :initialize
-
-  def initialize(*args, &orig_block)
-    block = proc do
-      begin
-        orig_block.call
-      ensure
-        if $!
-          Nightwatch::ExceptionManager.instance.add_exception($!)
-        end
-      end
-    end
-
-    orig_initialize(*args, &block)
   end
 end
 

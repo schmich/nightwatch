@@ -1,5 +1,6 @@
 require 'singleton'
 require 'nightwatch/mongo'
+require 'nightwatch/filter'
 
 module Nightwatch
   def self.configure(&block)
@@ -11,8 +12,10 @@ module Nightwatch
 
     def initialize
       @logger = Mongo.new
+      @filters = [AcceptFilter.new]
     end
 
     attr_accessor :logger
+    attr_accessor :filters
   end
 end

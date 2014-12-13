@@ -7,6 +7,7 @@ module Nightwatch
     set :run, false
     set :server, 'thin'
 
+    # TODO: Allow server configuration via command-line or settings file.
     mongo = Mongo::MongoClient.new
     exceptions = mongo['nightwatch']['exceptions']
 

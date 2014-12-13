@@ -2,6 +2,8 @@ require 'mongo'
 
 module Nightwatch
   class Mongo
+    # TODO: Allow users to specify client (e.g. Nightwatch::Mongo.new(client: mongo_client))
+    # TODO: Raise error if one of :host/:port or :client is not specified
     def initialize(opts = {})
       @host = opts[:host] || '127.0.0.1'
       @port = opts[:port] || 27017
