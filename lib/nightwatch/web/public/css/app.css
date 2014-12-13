@@ -107,3 +107,9 @@ html, body {
   /* Fix jumping issue in base style. */
   border: 0 !important;
 }
+.tab-pane#summary .name {
+  font-weight: 500;
+}
+.none {
+  color: #999;
+}
