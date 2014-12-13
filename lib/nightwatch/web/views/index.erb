@@ -15,7 +15,7 @@
   <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico" />
 </head>
 <body ng-controller="ReportCtrl">
-  <nav class="navbar navbar-default" role="navigation">
+  <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
         <a class="navbar-brand" href="/">Nightwatch</a>
@@ -26,7 +26,7 @@
     <div class="row primary-row">
       <div class="col-md-4 no-padding sidebar">
         <!--
-        <form class="form-inline filter-form" role="form">
+        <form class="form-inline filter-form">
           <div class="form-group">
             <div class="input-group">
               Class:
@@ -41,7 +41,7 @@
         <ul class="exceptions">
           <li ng-class="{ tile: true, exception: true, active: isActive(exception) }" ng-click="setActive(exception)" ng-repeat="exception in exceptions | exceptionFilter: { class: exceptionClass } | orderBy:'-timestamp'">
             <div class="primary">
-              <h1><span class="class">{{exception.class}}</span>: <span class="message">{{exception.message}}</span></h1>
+              <h1><span class="class">{{exception.class}}</span><span ng-if="exception.message != exception.class">: <span class="message">{{exception.message}}</span></span></h1>
             </div>
             <div class="support">
               <span class="host">{{exception.host}}</span>
@@ -51,75 +51,73 @@
         </ul>
       </div>
       <div class="col-md-8 no-padding main-content">
-        <div class="card exception-details">
-          <h4>{{activeException.class}}: {{activeException.message}}</h4>
-          <div role="tabpanel">
-            <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation" class="active"><a href="#summary" role="tab" data-toggle="tab">Summary</a></li>
-              <li role="presentation"><a href="#stack" role="tab" data-toggle="tab">Stack</a></li>
-              <li role="presentation"><a href="#environment" role="tab" data-toggle="tab">Environment</a></li>
-            </ul>
-            <div class="tab-content">
-              <div role="tabpanel" class="tab-pane active" id="summary">
-                <div class="row">
-                  <div class="col-md-3"><p>Class</p></div>
-                  <div class="col-md-9"><p>{{activeException.class}}</p></div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3"><p>Message</p></div>
-                  <div class="col-md-9"><p>{{activeException.message}}</p></div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3"><p>Location</p></div>
-                  <div class="col-md-9"><p>{{activeException.stack[0].label}} in {{activeException.stack[0].path | basename}}:{{activeException.stack[0].line}}</p></div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3"><p>Script</p></div>
-                  <div class="col-md-9"><p>{{activeException.script}}</p></div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3"><p>Process ID</p></div>
-                  <div class="col-md-9"><p>{{activeException.pid}}</p></div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3"><p>Arguments</p></div>
-                  <div class="col-md-9"><p>{{activeException.argv.join(' ') || '(none)'}}</p></div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3"><p>Host</p></div>
-                  <div class="col-md-9"><p>{{activeException.host}}</p></div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3"><p>Time</p></div>
-                  <div class="col-md-9"><p>{{activeException.timestamp * 1000 | date:'MMM dd, yyyy hh:mm:ss a'}}</p></div>
-                </div>
+        <div ng-if="activeException" class="card exception-details">
+          <h4>{{activeException.class}}<span ng-if="activeException.message != activeException.class">: {{activeException.message}}</span></h4>
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
+            <li><a href="#stack" data-toggle="tab">Stack</a></li>
+            <li><a href="#environment" data-toggle="tab">Environment</a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="summary">
+              <div class="row">
+                <div class="col-md-2"><p>Class</p></div>
+                <div class="col-md-10"><p>{{activeException.class}}</p></div>
               </div>
-              <div role="tabpanel" class="tab-pane" id="stack">
-                <table class="table">
-                  <tr>
-                    <th>Location</th>
-                    <th>File</th>
-                    <th width="10%">Line</th>
-                  </tr>
-                  <tr ng-repeat="frame in activeException.stack">
-                    <td>{{frame.label}}</td>
-                    <td>{{frame.path}}</td>
-                    <td>{{frame.line}}</td>
-                  </tr>
-                </table>
+              <div class="row">
+                <div class="col-md-2"><p>Message</p></div>
+                <div class="col-md-10"><p>{{activeException.message}}</p></div>
               </div>
-              <div role="tabpanel" class="tab-pane" id="environment">
-                <table class="table environment">
-                  <tr>
-                    <th>Name</th>
-                    <th>Value</th>
-                  </tr>
-                  <tr ng-repeat="(name, value) in activeException.env">
-                    <td>{{name}}</td>
-                    <td class="value">{{value}}</td>
-                  </tr>
-                </table>
+              <div class="row">
+                <div class="col-md-2"><p>Location</p></div>
+                <div class="col-md-10"><p>{{activeException.stack[0].label}} in {{activeException.stack[0].path | basename}}:{{activeException.stack[0].line}}</p></div>
               </div>
+              <div class="row">
+                <div class="col-md-2"><p>Script</p></div>
+                <div class="col-md-10"><p>{{activeException.script}}</p></div>
+              </div>
+              <div class="row">
+                <div class="col-md-2"><p>Arguments</p></div>
+                <div class="col-md-10"><p>{{activeException.argv.join(' ') || '(none)'}}</p></div>
+              </div>
+              <div class="row">
+                <div class="col-md-2"><p>Process ID</p></div>
+                <div class="col-md-10"><p>{{activeException.pid}}</p></div>
+              </div>
+              <div class="row">
+                <div class="col-md-2"><p>Host</p></div>
+                <div class="col-md-10"><p>{{activeException.host}}</p></div>
+              </div>
+              <div class="row">
+                <div class="col-md-2"><p>Time</p></div>
+                <div class="col-md-10"><p>{{activeException.timestamp * 1000 | date:'MMM dd, yyyy hh:mm:ss a'}}</p></div>
+              </div>
+            </div>
+            <div class="tab-pane" id="stack">
+              <table class="table">
+                <tr>
+                  <th>Location</th>
+                  <th>File</th>
+                  <th>Line</th>
+                </tr>
+                <tr ng-repeat="frame in activeException.stack">
+                  <td>{{frame.label}}</td>
+                  <td>{{frame.path}}</td>
+                  <td>{{frame.line}}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="tab-pane" id="environment">
+              <table class="table environment">
+                <tr>
+                  <th>Name</th>
+                  <th>Value</th>
+                </tr>
+                <tr ng-repeat="(name, value) in activeException.env">
+                  <td>{{name}}</td>
+                  <td class="value">{{value}}</td>
+                </tr>
+              </table>
             </div>
           </div>
         </div>

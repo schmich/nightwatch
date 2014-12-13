@@ -103,3 +103,7 @@ html, body {
   height: 100%;
   overflow: auto;
 }
+.nav-tabs > li.active > a {
+  /* Fix jumping issue in base style. */
+  border: 0 !important;
+}
