@@ -57,6 +57,7 @@
             <li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
             <li><a href="#stack" data-toggle="tab">Stack</a></li>
             <li><a href="#environment" data-toggle="tab">Environment</a></li>
+            <li><a href="#configuration" data-toggle="tab">Configuration</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="summary">
@@ -78,7 +79,7 @@
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Arguments</p></div>
-                <div class="col-md-10" ng-if="activeException.argv.length == 0"><p class="none">(none)</p></div>
+                <div class="col-md-10" ng-if="activeException.argv.length == 0"><p class="empty">(none)</p></div>
                 <div class="col-md-10" ng-if="activeException.argv.length > 0"><p>{{activeException.argv.join(' ')}}</p></div>
               </div>
               <div class="row">
@@ -117,6 +118,21 @@
                 <tr ng-repeat="(name, value) in activeException.env">
                   <td>{{name}}</td>
                   <td class="value">{{value}}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="tab-pane" id="configuration">
+              <table class="table configuration">
+                <tr>
+                  <th>Name</th>
+                  <th>Value</th>
+                </tr>
+                <tr ng-repeat="(name, value) in activeException.config">
+                  <td>{{name}}</td>
+                  <td class="value">
+                    <span ng-unless="value | isEmpty">{{value}}</span>
+                    <span ng-if="value | isEmpty" class="empty">(empty)</span>
+                  </td>
                 </tr>
               </table>
             </div>

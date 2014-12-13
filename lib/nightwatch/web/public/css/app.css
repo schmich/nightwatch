@@ -81,7 +81,7 @@ html, body {
 .table th {
   font-weight: 500;
 }
-.environment.table td.value {
+.environment.table td.value, .configuration.table td.value {
   word-break: break-all;
 }
 .table, .table tr th {
@@ -112,8 +112,8 @@ html, body {
 .tab-pane#summary .name {
   font-weight: 500;
 }
-.none {
-  color: #aaa;
+.empty {
+  color: #bbb;
 }
 .location {
   font-family: Consolas, Monaco, monospace;

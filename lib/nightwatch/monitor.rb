@@ -1,5 +1,6 @@
 require 'socket'
 require 'singleton'
+require 'rbconfig'
 require 'nightwatch/configuration'
 require 'nightwatch/ext/thread'
 
@@ -45,6 +46,7 @@ module Nightwatch
           argv: @@argv,
           pid: $$,
           env: env,
+          config: RbConfig::CONFIG,
           host: host,
           stack: stack,
           timestamp: ticks
