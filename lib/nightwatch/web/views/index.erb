@@ -22,8 +22,8 @@
       </div>
     </div>
   </nav>
-  <div class="container-fluid">
-    <div class="row">
+  <div class="container-fluid primary-container">
+    <div class="row primary-row">
       <div class="col-md-4 no-padding sidebar">
         <!--
         <form class="form-inline filter-form" role="form">
@@ -50,7 +50,7 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-8 no-padding">
+      <div class="col-md-8 no-padding main-content">
         <div class="card exception-details">
           <h4>{{activeException.class}}: {{activeException.message}}</h4>
           <div role="tabpanel">
@@ -72,6 +72,18 @@
                 <div class="row">
                   <div class="col-md-3"><p>Location</p></div>
                   <div class="col-md-9"><p>{{activeException.stack[0].label}} in {{activeException.stack[0].path | basename}}:{{activeException.stack[0].line}}</p></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3"><p>Script</p></div>
+                  <div class="col-md-9"><p>{{activeException.script}}</p></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3"><p>Process ID</p></div>
+                  <div class="col-md-9"><p>{{activeException.pid}}</p></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3"><p>Arguments</p></div>
+                  <div class="col-md-9"><p>{{activeException.argv.join(' ') || '(none)'}}</p></div>
                 </div>
                 <div class="row">
                   <div class="col-md-3"><p>Host</p></div>
@@ -97,7 +109,16 @@
                 </table>
               </div>
               <div role="tabpanel" class="tab-pane" id="environment">
-                <p>Environment</p>
+                <table class="table environment">
+                  <tr>
+                    <th>Name</th>
+                    <th>Value</th>
+                  </tr>
+                  <tr ng-repeat="(name, value) in activeException.env">
+                    <td>{{name}}</td>
+                    <td class="value">{{value}}</td>
+                  </tr>
+                </table>
               </div>
             </div>
           </div>

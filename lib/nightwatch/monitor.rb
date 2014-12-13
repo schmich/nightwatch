@@ -26,6 +26,7 @@ class ExceptionManager
     mongo = Mongo::MongoClient.new
     collection = mongo['nightwatch']['exceptions']
     host = Socket.gethostname
+    env = Hash[ENV.to_a]
 
     @exceptions.each do |id, info|
       exception, stack, ticks = info
@@ -35,6 +36,7 @@ class ExceptionManager
         pid: $$,
         script: @@script,
         argv: @@argv,
+        env: env,
         host: host,
         class: klass,
         message: exception.to_s,
