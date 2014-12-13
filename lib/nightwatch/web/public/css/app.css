@@ -38,11 +38,12 @@ html, body {
 .tile .support {
   padding: 10px 15px;
 }
-.exception h1 {
+.exception h5 {
   font-size: 18px;
   font-weight: normal;
   margin: 0;
   padding: 0;
+  line-height: 120%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -62,6 +63,7 @@ html, body {
   padding: 20px 30px 10px 30px;
 }
 .exception-details h4 {
+  line-height: 120%;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -111,5 +113,8 @@ html, body {
   font-weight: 500;
 }
 .none {
-  color: #999;
+  color: #aaa;
+}
+.location {
+  font-family: Consolas, Monaco, monospace;
 }

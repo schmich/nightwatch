@@ -41,7 +41,7 @@
         <ul class="exceptions">
           <li ng-class="{ tile: true, exception: true, active: isActive(exception) }" ng-click="setActive(exception)" ng-repeat="exception in exceptions | exceptionFilter: { class: exceptionClass } | orderBy:'-timestamp'">
             <div class="primary">
-              <h1><span class="class">{{exception.class}}</span><span ng-if="exception.message != exception.class">: <span class="message">{{exception.message}}</span></span></h1>
+              <h5><span class="class">{{exception.class}}</span><span ng-if="exception.message != exception.class">: <span class="message">{{exception.message}}</span></span></h5>
             </div>
             <div class="support">
               <span class="host">{{exception.host}}</span>
@@ -70,7 +70,7 @@
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Location</p></div>
-                <div class="col-md-10"><p>{{activeException.stack[0].label}} in {{activeException.stack[0].path | basename}}:{{activeException.stack[0].line}}</p></div>
+                <div class="col-md-10"><p><span class="location">{{activeException.stack[0].label}}</span> in {{activeException.stack[0].path | basename}}:{{activeException.stack[0].line}}</p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Script</p></div>
@@ -102,7 +102,7 @@
                   <th>Line</th>
                 </tr>
                 <tr ng-repeat="frame in activeException.stack">
-                  <td>{{frame.label}}</td>
+                  <td><span class="location">{{frame.label}}</span></td>
                   <td>{{frame.path}}</td>
                   <td>{{frame.line}}</td>
                 </tr>
