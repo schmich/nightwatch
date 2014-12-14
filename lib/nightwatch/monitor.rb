@@ -16,7 +16,7 @@ module Nightwatch
     @@script = absolute_path($0)
 
     def initialize
-      @exceptions = {}
+      @exceptions = []
       @config = Configuration.instance
     end
 
@@ -27,7 +27,7 @@ module Nightwatch
       end
 
       if exception
-        @exceptions[exception.object_id] = [exception, stack(exception), Time.now.to_i]
+        @exceptions << [exception, Time.now.to_i]
       end
     end
 
@@ -35,8 +35,9 @@ module Nightwatch
       host = Socket.gethostname
       env = Hash[ENV.to_a]
 
-      @exceptions.each do |id, info|
-        exception, stack, ticks = info
+      @exceptions.each do |info|
+        exception, ticks = info
+        stack = stack(exception)
         klass = exception.class.name
 
         record = {

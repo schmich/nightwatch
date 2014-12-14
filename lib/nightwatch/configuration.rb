@@ -12,7 +12,7 @@ module Nightwatch
 
     def initialize
       @logger = Mongo.new
-      @filters = [AcceptFilter.new]
+      @filters = [DuplicateFilter.new]
     end
 
     attr_accessor :logger
