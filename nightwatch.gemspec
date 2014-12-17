@@ -20,5 +20,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'mongo', '~> 1.11'
   s.add_runtime_dependency 'thor', '~> 0.19'
   s.add_runtime_dependency 'thin', '~> 1.4'
+  s.add_runtime_dependency 'deep_merge', '~> 1.0'
   s.add_development_dependency 'rake', '~> 10.3'
 end

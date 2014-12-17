@@ -20,6 +20,7 @@ html, body {
 .exception.active {
   border-right: 2px solid #2196F3;
   padding-right: 0;
+  background: #fcfcfc;
 }
 .card {
   background: #fff;

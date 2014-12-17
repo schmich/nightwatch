@@ -6,9 +6,9 @@ module Nightwatch
       @ids = Set.new
     end
 
-    def apply(exception)
+    def apply(exception, attrs)
       if @ids.add?(exception.object_id)
-        exception
+        return exception, attrs
       else
         nil
       end

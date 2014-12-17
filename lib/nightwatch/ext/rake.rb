@@ -21,7 +21,8 @@ module Rake
         execute_method.bind(self).call(*args, &block)
       ensure
         if $!
-          Nightwatch::ExceptionManager.instance.add_exception($!)
+          attrs = { ruby: { rake: { task: self.name } } }
+          Nightwatch::ExceptionManager.instance.add_exception($!, attrs)
         end
       end
     end
@@ -30,11 +31,11 @@ end
 
 module Nightwatch
   class RakeFilter
-    def apply(exception)
+    def apply(exception, attrs)
       if exception.is_a? SystemExit
         nil
       else
-        exception
+        return exception, attrs
       end
     end
   end
