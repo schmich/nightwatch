@@ -7,7 +7,7 @@ class Thread
         orig_block.call(*block_args)
       ensure
         if $!
-          Nightwatch::ExceptionManager.instance.add_exception($!)
+          Nightwatch::Monitor.instance.add_exception($!)
         end
       end
     end

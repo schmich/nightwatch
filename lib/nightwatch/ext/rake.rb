@@ -7,7 +7,7 @@ module Rake
         top_level_method.bind(self).call(*args, &block)
       ensure
         if $!
-          Nightwatch::ExceptionManager.instance.add_exception($!)
+          Nightwatch::Monitor.instance.add_exception($!)
         end
       end
     end
@@ -22,7 +22,7 @@ module Rake
       ensure
         if $!
           attrs = { ruby: { rake: { task: self.name } } }
-          Nightwatch::ExceptionManager.instance.add_exception($!, attrs)
+          Nightwatch::Monitor.instance.add_exception($!, attrs)
         end
       end
     end

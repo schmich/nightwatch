@@ -5,7 +5,7 @@ require 'nightwatch/configuration'
 require 'nightwatch/ext/rb_config'
 
 module Nightwatch
-  class ExceptionManager
+  class Monitor
     include Singleton
 
     def self.absolute_path(file)
