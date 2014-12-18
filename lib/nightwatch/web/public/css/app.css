@@ -18,9 +18,9 @@ html, body {
   padding-right: 2px;
 }
 .exception.active {
-  border-right: 2px solid #2196F3;
+  border-right: 2px solid #2196f3;
   padding-right: 0;
-  background: #fcfcfc;
+  background: #edf2f9;
 }
 .card {
   background: #fff;
