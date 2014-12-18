@@ -2,7 +2,6 @@ require 'socket'
 require 'singleton'
 require 'deep_merge'
 require 'nightwatch/configuration'
-require 'nightwatch/ext/thread'
 require 'nightwatch/ext/config'
 
 module Nightwatch
@@ -84,12 +83,4 @@ module Nightwatch
       stack
     end
   end
-end
-
-at_exit do
-  if $!
-    Nightwatch::ExceptionManager.instance.add_exception($!)
-  end
-
-  Nightwatch::ExceptionManager.instance.commit!
 end

@@ -1,3 +1,5 @@
+require 'nightwatch/commit'
 require 'nightwatch/monitor'
 require 'nightwatch/configuration'
-require 'nightwatch/mongo'
+require 'nightwatch/ext/main_thread'
+require 'nightwatch/ext/thread'
