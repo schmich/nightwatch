@@ -2,7 +2,7 @@ require 'socket'
 require 'singleton'
 require 'deep_merge'
 require 'nightwatch/configuration'
-require 'nightwatch/ext/config'
+require 'nightwatch/ext/rb_config'
 
 module Nightwatch
   class ExceptionManager
