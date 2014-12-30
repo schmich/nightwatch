@@ -33,6 +33,7 @@ module Nightwatch
 
     def commit!
       host = Socket.gethostname
+      # TODO: Move to class variable or to exception occurrence.
       env = Hash[ENV.to_a]
 
       @exceptions.each do |info|
