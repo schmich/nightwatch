@@ -62,7 +62,7 @@ module Nightwatch
       klass = exception.class.name
       host = Socket.gethostname
 
-      record = {
+      return {
         class: klass,
         message: exception.to_s,
         runtime: 'ruby',
