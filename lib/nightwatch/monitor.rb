@@ -55,22 +55,22 @@ module Nightwatch
     private
 
     def create_record(exception)
-      # TODO: Move to class variable or to exception occurrence.
-      timestamp = Time.now.to_i
-      stack = stack(exception)
-      klass = exception.class.name
-      host = Socket.gethostname
-
       return {
-        class: klass,
-        message: exception.to_s,
-        runtime: 'ruby',
-        script: @@script,
-        argv: @@argv,
-        pid: $$,
-        host: host,
-        stack: stack,
-        timestamp: timestamp
+        exception: {
+          class: exception.class.name,
+          message: exception.to_s,
+          stack: stack(exception)
+        },
+        process: {
+          id: $$,
+          script: @@script,
+          argv: @@argv,
+          runtime: 'ruby'
+        },
+        host: {
+          name: Socket.gethostname
+        },
+        timestamp: Time.now.to_i
       }
     end
 

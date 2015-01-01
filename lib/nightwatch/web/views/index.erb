@@ -39,64 +39,64 @@
         </form>
 -->
         <ul class="exceptions">
-          <li ng-class="{ tile: true, exception: true, active: isActive(exception) }" ng-click="setActive(exception)" ng-repeat="exception in exceptions | exceptionFilter: { class: exceptionClass } | orderBy:'-timestamp'">
+          <li ng-class="{ tile: true, exception: true, active: isActive(event) }" ng-click="setActive(event)" ng-repeat="event in events | exceptionFilter: { class: exceptionClass } | orderBy:'-timestamp'">
             <div class="primary">
-              <h5><span class="class">{{exception.class}}</span><span ng-if="exception.message != exception.class">: <span class="message">{{exception.message}}</span></span></h5>
+              <h5><span class="class">{{event.exception.class}}</span><span ng-if="event.exception.message != event.exception.class">: <span class="message">{{event.exception.message}}</span></span></h5>
             </div>
             <div class="support">
-              <span class="host">{{exception.host}}</span>
-              <span class="time pull-right" ng-attr-title="{{exception.timestamp * 1000 | date:'MMM dd, yyyy hh:mm:ss a'}}">{{exception.timestamp | timeAgo}}</span>
+              <span class="host">{{event.host.name}}</span>
+              <span class="time pull-right" ng-attr-title="{{event.timestamp * 1000 | date:'MMM dd, yyyy hh:mm:ss a'}}">{{event.timestamp | timeAgo}}</span>
             </div>
           </li>
         </ul>
       </div>
       <div class="col-md-8 no-padding main-content">
-        <div ng-if="activeException" class="card exception-details">
-          <h4>{{activeException.class}}<span ng-if="activeException.message != activeException.class">: {{activeException.message}}</span></h4>
+        <div ng-if="active" class="card exception-details">
+          <h4>{{active.exception.class}}<span ng-if="active.exception.message != active.exception.class">: {{active.exception.message}}</span></h4>
           <ul class="nav nav-tabs">
             <li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
             <li><a href="#stack" data-toggle="tab">Stack</a></li>
-            <li><a href="#environment" data-toggle="tab" ng-if="activeException.env">Environment</a></li>
-            <li><a href="#configuration" data-toggle="tab" ng-if="activeException.ruby.config">Configuration</a></li>
+            <li><a href="#environment" data-toggle="tab" ng-if="active.process.env">Environment</a></li>
+            <li><a href="#configuration" data-toggle="tab" ng-if="active.ruby.config">Configuration</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="summary">
               <div class="row">
                 <div class="col-md-2"><p class="name">Exception</p></div>
-                <div class="col-md-10"><p>{{activeException.class}}</p></div>
+                <div class="col-md-10"><p>{{active.exception.class}}</p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Message</p></div>
-                <div class="col-md-10"><p>{{activeException.message}}</p></div>
+                <div class="col-md-10"><p>{{active.exception.message}}</p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Location</p></div>
-                <div class="col-md-10"><p><span class="location">{{activeException.stack[0].label}}</span> in {{activeException.stack[0].path | basename}}:{{activeException.stack[0].line}}</p></div>
+                <div class="col-md-10"><p><span class="location">{{active.exception.stack[0].label}}</span> in {{active.exception.stack[0].path | basename}}:{{active.exception.stack[0].line}}</p></div>
               </div>
-              <div class="row" ng-if="activeException.ruby.rake.task">
+              <div class="row" ng-if="active.ruby.rake.task">
                 <div class="col-md-2"><p class="name">Rake Task</p></div>
-                <div class="col-md-10"><p>{{activeException.ruby.rake.task}}</p></div>
+                <div class="col-md-10"><p>{{active.ruby.rake.task}}</p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Script</p></div>
-                <div class="col-md-10"><p>{{activeException.script}}</p></div>
+                <div class="col-md-10"><p>{{active.process.script}}</p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Arguments</p></div>
-                <div class="col-md-10" ng-if="activeException.argv.length == 0"><p class="empty">(empty)</p></div>
-                <div class="col-md-10" ng-if="activeException.argv.length > 0"><p class="arguments">{{activeException.argv.join(' ')}}</p></div>
+                <div class="col-md-10" ng-if="active.process.argv.length == 0"><p class="empty">(empty)</p></div>
+                <div class="col-md-10" ng-if="active.process.argv.length > 0"><p class="arguments">{{active.process.argv.join(' ')}}</p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Process ID</p></div>
-                <div class="col-md-10"><p>{{activeException.pid}}</p></div>
+                <div class="col-md-10"><p>{{active.process.id}}</p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Host</p></div>
-                <div class="col-md-10"><p>{{activeException.host}}</p></div>
+                <div class="col-md-10"><p>{{active.host.name}}</p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Time</p></div>
-                <div class="col-md-10"><p>{{activeException.timestamp * 1000 | date:'EEE, dd MMM yyyy, hh:mm:ss a'}}</p></div>
+                <div class="col-md-10"><p>{{active.timestamp * 1000 | date:'EEE, dd MMM yyyy, hh:mm:ss a'}}</p></div>
               </div>
             </div>
             <div class="tab-pane" id="stack">
@@ -106,7 +106,7 @@
                   <th>File</th>
                   <th>Line</th>
                 </tr>
-                <tr ng-repeat="frame in activeException.stack">
+                <tr ng-repeat="frame in active.exception.stack">
                   <td><span class="location">{{frame.label}}</span></td>
                   <td>{{frame.path}}</td>
                   <td>{{frame.line}}</td>
@@ -119,7 +119,7 @@
                   <th>Name</th>
                   <th>Value</th>
                 </tr>
-                <tr ng-repeat="(name, value) in activeException.env">
+                <tr ng-repeat="(name, value) in active.process.env">
                   <td>{{name}}</td>
                   <td class="value">{{value}}</td>
                 </tr>
@@ -131,7 +131,7 @@
                   <th>Name</th>
                   <th>Value</th>
                 </tr>
-                <tr ng-repeat="(name, value) in activeException.ruby.config">
+                <tr ng-repeat="(name, value) in active.ruby.config">
                   <td>{{name}}</td>
                   <td class="value">
                     <span ng-unless="value | isEmpty">{{value}}</span>
