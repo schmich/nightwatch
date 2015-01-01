@@ -2,7 +2,6 @@ require 'socket'
 require 'singleton'
 require 'deep_merge'
 require 'nightwatch/config'
-require 'nightwatch/ext/rb_config'
 
 module Nightwatch
   def self.instance

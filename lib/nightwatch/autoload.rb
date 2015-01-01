@@ -4,8 +4,8 @@ module Nightwatch
   end
 
   self.autoload(:MongoLogger, 'logger/mongo.rb')
-  self.autoload(:DuplicateFilter, 'ext/duplicate_filter.rb')
-  self.autoload(:RbConfig, 'ext/rb_config.rb')
-  self.autoload(:Rake, 'ext/rake.rb')
-  self.autoload(:Env, 'ext/env.rb')
+  self.autoload(:DuplicateFilter, 'middleware/duplicate_filter.rb')
+  self.autoload(:RbConfig, 'middleware/rb_config.rb')
+  self.autoload(:Rake, 'middleware/rake.rb')
+  self.autoload(:Env, 'middleware/env.rb')
 end
