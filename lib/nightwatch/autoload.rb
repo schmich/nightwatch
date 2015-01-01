@@ -6,4 +6,5 @@ module Nightwatch
   self.autoload(:MongoLogger, 'logger/mongo.rb')
   self.autoload(:RbConfig, 'ext/rb_config.rb')
   self.autoload(:Rake, 'ext/rake.rb')
+  self.autoload(:Env, 'ext/env.rb')
 end

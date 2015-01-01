@@ -57,7 +57,6 @@ module Nightwatch
 
     def create_record(exception)
       # TODO: Move to class variable or to exception occurrence.
-      env = Hash[ENV.to_a]
       timestamp = Time.now.to_i
       stack = stack(exception)
       klass = exception.class.name
@@ -70,7 +69,6 @@ module Nightwatch
         script: @@script,
         argv: @@argv,
         pid: $$,
-        env: env,
         host: host,
         stack: stack,
         timestamp: timestamp

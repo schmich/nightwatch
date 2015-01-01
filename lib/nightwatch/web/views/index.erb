@@ -56,7 +56,7 @@
           <ul class="nav nav-tabs">
             <li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
             <li><a href="#stack" data-toggle="tab">Stack</a></li>
-            <li><a href="#environment" data-toggle="tab">Environment</a></li>
+            <li><a href="#environment" data-toggle="tab" ng-if="activeException.env">Environment</a></li>
             <li><a href="#configuration" data-toggle="tab" ng-if="activeException.ruby.config">Configuration</a></li>
           </ul>
           <div class="tab-content">
