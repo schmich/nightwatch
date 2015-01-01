@@ -5,6 +5,14 @@ require 'nightwatch/configuration'
 require 'nightwatch/ext/rb_config'
 
 module Nightwatch
+  def self.instance
+    Monitor.instance
+  end
+
+  def self.configure(&block)
+    self.instance.instance_eval(&block)
+  end
+
   class Monitor
     include Singleton
 
@@ -17,12 +25,16 @@ module Nightwatch
 
     def initialize
       @exceptions = []
-      @config = Configuration.instance
+      @config = Configuration.new
+    end
+
+    def config
+      @config
     end
 
     def add_exception(exception, attrs = {})
-      Configuration.instance.filters.each do |filter|
-        exception, attrs = filter.apply(exception, attrs)
+      @config.middleware.each do |middleware|
+        exception, attrs = middleware.exception(exception, attrs)
         break if !exception
       end
 
@@ -54,7 +66,9 @@ module Nightwatch
           timestamp: ticks
         }.deep_merge(attrs)
 
-        @config.logger.log(record)
+        @config.logger.each do |logger|
+          logger.log(record)
+        end
       end
     end
 

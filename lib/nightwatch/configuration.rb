@@ -1,21 +1,28 @@
-require 'singleton'
-require 'nightwatch/mongo'
-require 'nightwatch/filter'
-
 module Nightwatch
-  def self.configure(&block)
-    Configuration.instance.instance_eval(&block)
-  end
-
   class Configuration
-    include Singleton
-
     def initialize
-      @logger = Mongo.new
-      @filters = [DuplicateFilter.new]
+      @logger = Plugins.new
+      @middleware = Plugins.new
     end
 
     attr_accessor :logger
-    attr_accessor :filters
+    attr_accessor :middleware
+  end
+
+  class Plugins
+    include Enumerable
+
+    def initialize
+      @stack = []
+    end
+
+    def each(*args, &block)
+      @stack.each(*args, &block)
+    end
+
+    def use(klass, *args)
+      instance = klass.new(*args)
+      @stack << instance
+    end
   end
 end
