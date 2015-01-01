@@ -11,7 +11,9 @@ module Nightwatch
     end
 
     def log(record)
-      collection.insert(record)
+      # We duplicate the record since Mongo adds additional
+      # data of its own before inserting the document.
+      collection.insert(record.dup)
     end
 
     private
