@@ -32,47 +32,50 @@ module Nightwatch
       @config
     end
 
-    def add_exception(exception, attrs = {})
+    def add_exception(exception, record = {})
+      record = create_record(exception).deep_merge(record)
+
       @config.middleware.each do |middleware|
-        exception, attrs = middleware.exception(exception, attrs)
+        exception, record = middleware.exception(exception, record)
         break if !exception
       end
 
-      if exception
-        @exceptions << [exception, attrs, Time.now.to_i]
-      end
+      @exceptions << record if record
     end
 
     def commit!
-      host = Socket.gethostname
-      # TODO: Move to class variable or to exception occurrence.
-      env = Hash[ENV.to_a]
-
-      @exceptions.each do |info|
-        exception, attrs, ticks = info
-        stack = stack(exception)
-        klass = exception.class.name
-
-        record = {
-          class: klass,
-          message: exception.to_s,
-          runtime: 'ruby',
-          script: @@script,
-          argv: @@argv,
-          pid: $$,
-          env: env,
-          host: host,
-          stack: stack,
-          timestamp: ticks
-        }.deep_merge(attrs)
-
+      @exceptions.each do |record|
         @config.logger.each do |logger|
+          # TODO: Support logging of multiple records at once
+          # instead of just one at a time.
           logger.log(record)
         end
       end
     end
 
     private
+
+    def create_record(exception)
+      # TODO: Move to class variable or to exception occurrence.
+      env = Hash[ENV.to_a]
+      timestamp = Time.now.to_i
+      stack = stack(exception)
+      klass = exception.class.name
+      host = Socket.gethostname
+
+      record = {
+        class: klass,
+        message: exception.to_s,
+        runtime: 'ruby',
+        script: @@script,
+        argv: @@argv,
+        pid: $$,
+        env: env,
+        host: host,
+        stack: stack,
+        timestamp: timestamp
+      }
+    end
 
     def stack(exception)
       stack = []
