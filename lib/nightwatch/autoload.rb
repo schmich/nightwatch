@@ -4,4 +4,5 @@ module Nightwatch
   end
 
   self.autoload(:MongoLogger, 'logger/mongo.rb')
+  self.autoload(:RbConfig, 'ext/rb_config.rb')
 end
