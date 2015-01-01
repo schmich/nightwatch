@@ -7,5 +7,6 @@ module Nightwatch
   self.autoload(:DuplicateFilter, 'middleware/duplicate_filter.rb')
   self.autoload(:RbConfig, 'middleware/rb_config.rb')
   self.autoload(:Rake, 'middleware/rake.rb')
+  self.autoload(:Thread, 'middleware/thread.rb')
   self.autoload(:Env, 'middleware/env.rb')
 end
