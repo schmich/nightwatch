@@ -1,5 +1,5 @@
 module Nightwatch
-  class Configuration
+  class Config
     def initialize
       @logger = Plugins.new
       @middleware = Plugins.new

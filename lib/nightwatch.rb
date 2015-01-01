@@ -1,7 +1,7 @@
 require 'nightwatch/autoload'
 require 'nightwatch/monitor'
 require 'nightwatch/commit'
-require 'nightwatch/configuration'
+require 'nightwatch/config'
 require 'nightwatch/ext/main_thread'
 require 'nightwatch/ext/thread'
 require 'nightwatch/defaults'

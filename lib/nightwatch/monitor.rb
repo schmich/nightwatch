@@ -1,7 +1,7 @@
 require 'socket'
 require 'singleton'
 require 'deep_merge'
-require 'nightwatch/configuration'
+require 'nightwatch/config'
 require 'nightwatch/ext/rb_config'
 
 module Nightwatch
@@ -25,7 +25,7 @@ module Nightwatch
 
     def initialize
       @exceptions = []
-      @config = Configuration.new
+      @config = Config.new
     end
 
     def config
