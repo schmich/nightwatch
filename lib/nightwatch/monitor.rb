@@ -31,6 +31,7 @@ module Nightwatch
       @config
     end
 
+    # TODO: @exceptions needs to be thread-safe.
     def add_exception(exception, record = {})
       record = create_record(exception).deep_merge(record)
 
@@ -43,13 +44,11 @@ module Nightwatch
     end
 
     def commit!
-      @exceptions.each do |record|
-        @config.logger.each do |logger|
-          # TODO: Support logging of multiple records at once
-          # instead of just one at a time.
-          logger.log(record)
-        end
+      @config.logger.each do |logger|
+        logger.log(@exceptions)
       end
+
+      @exceptions = []
     end
 
     private

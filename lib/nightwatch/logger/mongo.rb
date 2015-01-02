@@ -10,10 +10,15 @@ module Nightwatch
       @database = opts[:database] || 'nightwatch'
     end
 
-    def log(record)
-      # We duplicate the record since Mongo adds additional
-      # data of its own before inserting the document.
-      collection.insert(record.dup)
+    def log(records)
+      docs = []
+      records.each do |record|
+        # We duplicate records since Mongo adds additional
+        # data of its own when inserting the document.
+        docs << record.dup
+      end
+
+      collection.insert(docs)
     end
 
     private

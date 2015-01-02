@@ -13,8 +13,10 @@ module Nightwatch
       end
     end
 
-    def log(record)
-      @file.write(JSON.dump(record))
+    def log(records)
+      records.each do |record|
+        @file.write(JSON.dump(record))
+      end
     end
   end
 end
