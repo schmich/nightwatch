@@ -1,8 +1,7 @@
 module Nightwatch
   class Hook
     def initialize(klass, method, &impl)
-      @klass = klass
-      @method = method
+      @method = klass.instance_method(method)
 
       @new_impl = impl
       @orig_impl = nil
@@ -13,10 +12,10 @@ module Nightwatch
     def apply
       return if @orig_impl
 
-      method = @method
+      method = @method.name
       new_impl = @new_impl
 
-      @orig_impl = @klass.class_eval do
+      @orig_impl = @method.owner.class_eval do
         orig_impl = instance_method(method)
           
         define_method method do |*args, &block|
@@ -31,10 +30,10 @@ module Nightwatch
     def remove
       return if !@orig_impl
 
-      method = @method
+      method = @method.name
       orig_impl = @orig_impl
 
-      @klass.class_eval do
+      @method.owner.class_eval do
         define_method method, orig_impl
       end
 

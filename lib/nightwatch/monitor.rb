@@ -87,6 +87,8 @@ module Nightwatch
           }
         end
       else
+        # TODO: Support alternate format: http://ruby-doc.org/core-2.1.1/Exception.html#method-i-backtrace
+        # Method might be missing from backtrace information.
         exception.backtrace.each do |location|
           location.match(/^(.+?):(\d+)(|:in `(.+)')$/)
           stack << {
