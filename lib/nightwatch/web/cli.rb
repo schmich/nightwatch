@@ -1,7 +1,6 @@
 require 'nightwatch/web/server'
 require 'nightwatch/version'
 require 'thor'
-require 'launchy'
 
 module Nightwatch
   class CommandLine < Thor
