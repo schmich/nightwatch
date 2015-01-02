@@ -21,7 +21,7 @@ module Nightwatch
     def collection
       @collection ||= begin
         mongo = Mongo::MongoClient.new(@host, @port)
-        mongo[@database]['exceptions']
+        mongo[@database]['events']
       end
     end
   end

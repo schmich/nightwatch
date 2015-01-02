@@ -9,14 +9,14 @@ module Nightwatch
 
     # TODO: Allow server configuration via command-line or settings file.
     mongo = Mongo::MongoClient.new
-    exceptions = mongo['nightwatch']['exceptions']
+    events = mongo['nightwatch']['events']
 
     get '/' do
       erb :index
     end
 
-    get '/exceptions' do
-      json exceptions.find.to_a
+    get '/events' do
+      json events.find.to_a
     end
   end
 end
