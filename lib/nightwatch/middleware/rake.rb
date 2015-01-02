@@ -16,7 +16,13 @@ module Nightwatch
           orig.call(*args, &block)
         ensure
           if $!
-            record = { ruby: { rake: { task: self.name } } }
+            record = {
+              runtime: {
+                rake: {
+                  task: self.name
+                }
+              }
+            }
             Nightwatch::Monitor.instance.add_exception($!, record)
           end
         end

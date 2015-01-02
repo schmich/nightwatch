@@ -64,11 +64,13 @@ module Nightwatch
         process: {
           id: $$,
           script: @@script,
-          argv: @@argv,
-          runtime: 'ruby'
+          argv: @@argv
         },
         host: {
           name: Socket.gethostname
+        },
+        runtime: {
+          language: 'ruby'
         },
         timestamp: Time.now.to_i
       }

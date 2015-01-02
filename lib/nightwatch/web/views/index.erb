@@ -57,7 +57,7 @@
             <li class="active"><a href="#summary" data-toggle="tab">Summary</a></li>
             <li><a href="#stack" data-toggle="tab">Stack</a></li>
             <li><a href="#environment" data-toggle="tab" ng-if="active.process.env">Environment</a></li>
-            <li><a href="#configuration" data-toggle="tab" ng-if="active.ruby.config">Configuration</a></li>
+            <li><a href="#configuration" data-toggle="tab" ng-if="active.runtime.config">Configuration</a></li>
           </ul>
           <div class="tab-content">
             <div class="tab-pane active" id="summary">
@@ -73,9 +73,9 @@
                 <div class="col-md-2"><p class="name">Location</p></div>
                 <div class="col-md-10"><p><span class="location">{{active.exception.stack[0].label}}</span> in {{active.exception.stack[0].path | basename}}:{{active.exception.stack[0].line}}</p></div>
               </div>
-              <div class="row" ng-if="active.ruby.rake.task">
+              <div class="row" ng-if="active.runtime.rake.task">
                 <div class="col-md-2"><p class="name">Rake Task</p></div>
-                <div class="col-md-10"><p>{{active.ruby.rake.task}}</p></div>
+                <div class="col-md-10"><p>{{active.runtime.rake.task}}</p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Script</p></div>
@@ -131,7 +131,7 @@
                   <th>Name</th>
                   <th>Value</th>
                 </tr>
-                <tr ng-repeat="(name, value) in active.ruby.config">
+                <tr ng-repeat="(name, value) in active.runtime.config">
                   <td>{{name}}</td>
                   <td class="value">
                     <span ng-unless="value | isEmpty">{{value}}</span>
