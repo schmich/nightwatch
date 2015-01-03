@@ -5,6 +5,7 @@ module Nightwatch
 
   self.autoload(:MongoLogger, 'logger/mongo.rb')
   self.autoload(:FileLogger, 'logger/file.rb')
+  self.autoload(:SlackLogger, 'logger/slack.rb')
   self.autoload(:DuplicateFilter, 'middleware/duplicate_filter.rb')
   self.autoload(:Exclude, 'middleware/exclude.rb')
   self.autoload(:RbConfig, 'middleware/rb_config.rb')

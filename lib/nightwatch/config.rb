@@ -56,7 +56,7 @@ module Nightwatch
     def index(find_class)
       index = @stack.index { |plugin| plugin.class == find_class }
       if !index
-        raise Nightwatch::Error, "#{find_class} not found."
+        raise Error, "#{find_class} not found."
       end
 
       index
