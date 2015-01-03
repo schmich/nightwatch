@@ -1,4 +1,5 @@
 require 'nightwatch/autoload'
+require 'nightwatch/error'
 require 'nightwatch/monitor'
 require 'nightwatch/commit'
 require 'nightwatch/config'
