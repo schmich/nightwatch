@@ -18,5 +18,18 @@ module Nightwatch
     get '/events' do
       json events.find.to_a
     end
+
+    get '/events/summary' do
+      json events.find({}, fields: [
+        'exception.class',
+        'exception.message',
+        'host.name',
+        'timestamp'
+      ]).to_a
+    end
+
+    get '/events/:id' do
+      json events.find(_id: BSON::ObjectId(params[:id])).first
+    end
   end
 end
