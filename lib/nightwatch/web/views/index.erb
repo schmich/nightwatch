@@ -41,7 +41,7 @@
         <ul class="exceptions">
           <li ng-class="{ tile: true, exception: true, active: isActive(event) }" ng-click="setActive(event)" ng-repeat="event in events | exceptionFilter: { class: exceptionClass } | orderBy:'-timestamp'">
             <div class="primary">
-              <h5><span class="class">{{event.exception.class}}</span><span ng-if="event.exception.message != event.exception.class">: <span class="message">{{event.exception.message}}</span></span></h5>
+              <h5><span class="class">{{event.exception.class}}</span><span ng-if="event.exception.message != event.exception.class">: {{event.exception.message}}</span></h5>
             </div>
             <div class="support">
               <span class="host">{{event.host.name}}</span>
@@ -67,7 +67,7 @@
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Message</p></div>
-                <div class="col-md-10"><p>{{active.exception.message}}</p></div>
+                <div class="col-md-10"><p class="message">{{active.exception.message}}</p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Location</p></div>

@@ -110,8 +110,12 @@ html, body {
   /* Fix jumping issue in base style. */
   border: 0 !important;
 }
-.tab-pane#summary .name {
+#summary .name {
   font-weight: 500;
+}
+#summary .message {
+  white-space: pre-wrap;
+  font-family: Consolas, Monaco, monospace;
 }
 .empty {
   color: #bbb;
