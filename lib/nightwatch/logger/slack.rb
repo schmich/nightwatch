@@ -1,6 +1,8 @@
 require 'faraday'
 require 'json'
 
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
 module Nightwatch
   class SlackLogger
     def initialize(opts = {})
@@ -12,7 +14,7 @@ module Nightwatch
     end
 
     def log(records)
-      conn = Faraday.new(:url => @url)
+      texts = []
 
       records.each do |record|
         exception = record[:exception]
@@ -26,10 +28,12 @@ module Nightwatch
           text += " at #{top[:label]} in #{top[:path]}:#{top[:line]}"
         end
 
-        conn.post do |req|
-          req.headers['Content-Type'] = 'application/json'
-          req.body = JSON.dump({ username: 'Nightwatch', text: text })
-        end
+        texts << text
+      end
+
+      Faraday.new(:url => @url).post do |req|
+        req.headers['Content-Type'] = 'application/json'
+        req.body = JSON.dump({ username: 'Nightwatch', text: texts.join("\n") })
       end
     end
   end
