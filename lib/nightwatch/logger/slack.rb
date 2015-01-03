@@ -1,8 +1,6 @@
 require 'faraday'
 require 'json'
 
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-
 module Nightwatch
   class SlackLogger
     def initialize(opts = {})
@@ -21,11 +19,11 @@ module Nightwatch
         klass = exception[:class]
         message = exception[:message]
 
-        text = "#{klass}: #{message}"
+        text = "`#{klass}`: #{message}"
 
         top = exception[:stack].first
         if top
-          text += " at #{top[:label]} in #{top[:path]}:#{top[:line]}"
+          text += " at `#{top[:label]}` in #{top[:path]}:#{top[:line]}"
         end
 
         texts << text
