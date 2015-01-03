@@ -18,7 +18,7 @@ html, body {
   padding-right: 2px;
 }
 .exception.active {
-  border-right: 2px solid #2196f3;
+  border-right: 2px solid #0288D1;
   padding-right: 0;
   background: #edf2f9;
 }
@@ -70,7 +70,7 @@ html, body {
   white-space: nowrap;
 }
 .navbar {
-  background: #2196F3;
+  background: #0288D1;
   margin: 0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   z-index: 2;
@@ -116,6 +116,6 @@ html, body {
 .empty {
   color: #bbb;
 }
-.location {
+code {
   font-family: Consolas, Monaco, monospace;
 }

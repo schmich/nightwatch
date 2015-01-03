@@ -63,7 +63,7 @@
             <div class="tab-pane active" id="summary">
               <div class="row">
                 <div class="col-md-2"><p class="name">Exception</p></div>
-                <div class="col-md-10"><p>{{active.exception.class}}</p></div>
+                <div class="col-md-10"><p><code>{{active.exception.class}}</code></p></div>
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Message</p></div>
@@ -71,7 +71,7 @@
               </div>
               <div class="row">
                 <div class="col-md-2"><p class="name">Location</p></div>
-                <div class="col-md-10"><p><span class="location">{{active.exception.stack[0].label}}</span> in {{active.exception.stack[0].path | basename}}:{{active.exception.stack[0].line}}</p></div>
+                <div class="col-md-10"><p><code>{{active.exception.stack[0].label}}</code> in {{active.exception.stack[0].path | basename}}:{{active.exception.stack[0].line}}</p></div>
               </div>
               <div class="row" ng-if="active.runtime.rake.task">
                 <div class="col-md-2"><p class="name">Rake Task</p></div>
@@ -107,7 +107,7 @@
                   <th>Line</th>
                 </tr>
                 <tr ng-repeat="frame in active.exception.stack">
-                  <td><span class="location">{{frame.label}}</span></td>
+                  <td><code>{{frame.label}}</code></td>
                   <td>{{frame.path}}</td>
                   <td>{{frame.line}}</td>
                 </tr>
