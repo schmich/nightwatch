@@ -1,6 +1,7 @@
 require 'socket'
 require 'singleton'
 require 'deep_merge'
+require 'thread'
 require 'nightwatch/config'
 
 module Nightwatch
@@ -24,6 +25,7 @@ module Nightwatch
 
     def initialize
       @exceptions = []
+      @exceptions_lock = Mutex.new
       @config = Config.new
     end
 
@@ -31,7 +33,6 @@ module Nightwatch
       @config
     end
 
-    # TODO: @exceptions needs to be thread-safe.
     def add_exception(exception, record = {})
       record = create_record(exception).deep_merge(record)
 
@@ -40,15 +41,21 @@ module Nightwatch
         break if !exception
       end
 
-      @exceptions << record if record
+      @exceptions_lock.synchronize do
+        @exceptions << record if record
+      end
     end
 
     def commit!
-      @config.logger.each do |logger|
-        logger.log(@exceptions)
+      to_log = nil
+      @exceptions_lock.synchronize do
+        to_log = @exceptions.dup
+        @exceptions = []
       end
 
-      @exceptions = []
+      @config.logger.each do |logger|
+        logger.log(to_log)
+      end
     end
 
     private
