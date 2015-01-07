@@ -4,10 +4,8 @@ module Nightwatch
   class Rake
     def initialize
       @app_hook = Hook.new(::Rake::Application, :top_level) do |orig, *args, block|
-        begin
+        Nightwatch.monitor do
           orig.call(*args, &block)
-        ensure
-          Nightwatch::Monitor.instance.add_exception($!) if $!
         end
       end
 
@@ -23,7 +21,7 @@ module Nightwatch
                 }
               }
             }
-            Nightwatch::Monitor.instance.add_exception($!, record)
+            Nightwatch.instance.add_exception($!, record)
           end
         end
       end

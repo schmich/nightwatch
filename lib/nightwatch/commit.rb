@@ -1,5 +1,5 @@
 require 'monitor'
 
 Kernel.at_exit do
-  Nightwatch::Monitor.instance.commit!
+  Nightwatch.instance.commit!
 end

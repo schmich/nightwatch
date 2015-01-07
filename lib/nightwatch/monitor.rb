@@ -13,6 +13,14 @@ module Nightwatch
     self.instance.instance_eval(&block)
   end
 
+  def self.monitor(&block)
+    begin
+      block.call
+    ensure
+      self.instance.add_exception($!) if $!
+    end
+  end
+
   class Monitor
     include Singleton
 

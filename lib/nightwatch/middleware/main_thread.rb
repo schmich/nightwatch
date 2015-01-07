@@ -2,7 +2,7 @@ module Nightwatch
   class MainThread
     def initialize
       Kernel.at_exit do
-        Nightwatch::Monitor.instance.add_exception($!) if $!
+        Nightwatch.instance.add_exception($!) if $!
       end
     end
 
